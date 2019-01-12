@@ -70,7 +70,7 @@ async function setupWebcam() {
 
     navigator.mediaDevices.getUserMedia(constraints)
         .then(function(mediaStream) {
-            let video = document.getElementById('webcam');
+            let video = document.querySelector('webcam');
             video.srcObject = mediaStream;
             video.onloadedmetadata = function(e) {
                 video.play();
