@@ -62,29 +62,29 @@ function loadDemoImage() {
 
 
 
-        async function setupWebcam() {
-            const constraints = {
-            facingmode: 'environment'
-            };
-            console.log("loading cmaera..");
-            return new Promise((resolve, reject) => {
-                const navigatorAny = navigator;
-                navigator.getUserMedia = navigator.getUserMedia ||
-                    navigatorAny.webkitGetUserMedia || navigatorAny.mozGetUserMedia ||
-                    navigatorAny.msGetUserMedia;
-                if (navigator.getUserMedia) {
-                    navigator.getUserMedia({video: constraints},
-                        stream => {
-                            webcamElement.srcObject = stream;
-                            webcamElement.addEventListener('loadeddata',  () => resolve(), false);
-                        },
-                        error => reject());
-                } else {
-                    reject();
-                }
-            });
-
+async function setupWebcam() {
+    const constraints = {
+      facingMode:'user'
+    };
+    console.log("loading cmaera..");
+    return new Promise((resolve, reject) => {
+        const navigatorAny = navigator;
+        navigator.getUserMedia = navigator.getUserMedia ||
+            navigatorAny.webkitGetUserMedia || navigatorAny.mozGetUserMedia ||
+            navigatorAny.msGetUserMedia;
+        if (navigator.getUserMedia) {
+            navigator.getUserMedia({video: constraints},
+                stream => {
+                    webcamElement.srcObject = stream;
+                    webcamElement.addEventListener('loadeddata',  () => resolve(), false);
+                },
+                error => reject());
+        } else {
+            reject();
         }
+    });
+
+}
 
 
 async function app(){
