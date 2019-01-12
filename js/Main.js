@@ -61,7 +61,12 @@ function loadDemoImage() {
 }
 
 async function setupWebcam() {
-    let constraints = { audio: true, video: { width: 1280, height: 720 } };
+
+    const videoConstraints = {
+        facingMode: 'environment'
+    };
+   
+    let constraints = { audio: true, video: videoConstraints };
 
     navigator.mediaDevices.getUserMedia(constraints)
         .then(function(mediaStream) {
