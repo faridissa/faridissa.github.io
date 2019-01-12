@@ -63,7 +63,7 @@ function loadDemoImage() {
 async function setupWebcam() {
 
     const videoConstraints = {
-        facingMode: 'environment'
+        facingMode: 'user'
     };
 
     let constraints = { audio: true, video: videoConstraints };
