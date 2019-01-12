@@ -65,12 +65,12 @@ async function setupWebcam() {
     const videoConstraints = {
         facingMode: 'environment'
     };
-   
+
     let constraints = { audio: true, video: videoConstraints };
 
     navigator.mediaDevices.getUserMedia(constraints)
         .then(function(mediaStream) {
-            let video = document.querySelector('webcam');
+            let video = document.getElementById('webcam');
             video.srcObject = mediaStream;
             video.onloadedmetadata = function(e) {
                 video.play();
@@ -84,5 +84,5 @@ async function app(){
     await loadModel();
 
 }
-//app();
+app();
 
