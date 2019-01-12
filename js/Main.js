@@ -64,7 +64,7 @@ function loadDemoImage() {
 
 async function setupWebcam() {
     const constraints = {
-      facingMode:'user'
+      facingMode:'environment'
     };
     console.log("loading cmaera..");
     return new Promise((resolve, reject) => {
