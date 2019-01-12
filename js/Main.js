@@ -60,23 +60,32 @@ function loadDemoImage() {
     }
 }
 
-async function setupWebcam() {
 
-    const videoConstraints = {
-        facingMode: 'user'
-    };
 
-    let constraints = { audio: true, video: videoConstraints };
-
-    navigator.mediaDevices.getUserMedia(constraints)
-        .then(function(mediaStream) {
-            let video = document.querySelector('webcam');
-            video.srcObject = mediaStream;
-            video.onloadedmetadata = function(e) {
-                video.play();
+        async function setupWebcam() {
+            const constraints = {
+            facingmode: 'environment'
             };
-        })
-}
+            console.log("loading cmaera..");
+            return new Promise((resolve, reject) => {
+                const navigatorAny = navigator;
+                navigator.getUserMedia = navigator.getUserMedia ||
+                    navigatorAny.webkitGetUserMedia || navigatorAny.mozGetUserMedia ||
+                    navigatorAny.msGetUserMedia;
+                if (navigator.getUserMedia) {
+                    navigator.getUserMedia({video: constraints},
+                        stream => {
+                            webcamElement.srcObject = stream;
+                            webcamElement.addEventListener('loadeddata',  () => resolve(), false);
+                        },
+                        error => reject());
+                } else {
+                    reject();
+                }
+            });
+
+        }
+
 
 async function app(){
 
