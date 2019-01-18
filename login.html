@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Login</title>
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -15,7 +17,6 @@
     <script src="https://www.gstatic.com/firebasejs/5.7.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/5.7.0/firebase.js"></script>
 
-
     <style>
         .bg{
             background-image: url("page1/emoji-1A.png");
@@ -25,16 +26,7 @@
             cursor: pointer;
         }
     </style>
-</head>
-<script>
-
-</script>
-<body class="bg">
-<div class="container-fluid" >
-
     <script>
-
-
         // Initialize Firebase
         let config = {
             apiKey: "AIzaSyBzJhjPTm8O_pdF3u7JCkFnYjhArX3Fte4",
@@ -44,57 +36,42 @@
             storageBucket: "scout-game.appspot.com",
             messagingSenderId: "277037324529"
         };
-
         firebase.initializeApp(config);
-        let database=firebase.database();
-        let guardian="", player="",age=0,score=0;
-
-        googleSignIn=()=>{
-            base_provider=new firebase.auth.GoogleAuthProvider();
-            window.location.replace("camera1.html");
-            firebase.auth().signInWithPopup(base_provider).then(function(result){
-                console.log(result);
-                console.log(result.additionalUserInfo.profile.email);
-                console.log("success... google account linked")
-                let leadsRef=database.ref('scout-game');
-                leadsRef.on('value',function (snapshot){
-                    snapshot.forEach(function (childSnapshot) {
-                        guardian =childSnapshot.val().guardian;
-                           player=childSnapshot.val().player;
-                           age=childSnapshot.val().age;
-                           score=childSnapshot.val().score;
-                        })
-                });
-
-                database.ref('scout-game').push({
-                    guardian: result.additionalUserInfo.profile.given_name+" "+result.additionalUserInfo.profile.family_name,
-                    player:"",
-                    age:0,
-                    score:0
-
-                })
-
-
-            }).catch(function(err){
-                console.log(err);
-                console.log("failed to do")
-
-            })
-
-
-        }
-
-
-
-
     </script>
+
+<script>
+
+    googleSignIn = () => {
+        base_provider = new firebase.auth.GoogleAuthProvider();
+
+        firebase.auth().signInWithPopup(base_provider).then(function (result) {
+            console.log(result);
+            console.log(result.additionalUserInfo.profile.email);
+            console.log("success... google account linked")
+            userId= firebase.auth().currentUser.uid;
+          //  user.sendId(userId);
+
+            window.location.href = 'NewPlayer.html' + '#' + userId;
+
+        }).catch(function (err) {
+            console.log(err);
+            console.log("failed to do")
+        })
+    }
+
+</script>
+</head>
+<script>
+
+</script>
+<body class="bg">
+<div class="container-fluid" >
+
+
         <div class="col-sm-12" align="center">
         <img src="page1/emoji-scout-1st-page-sticker.png" alt="sticker" width="70%" height="70%" >
         </div>
 
-   <!-- <div class="col-sm-12" align="center">
-       <img src="page1/emoji-1-button-fb.png" alt="Facebook" width="60%" height="60%" onclick="FacebookSignIn()" class="sign">
-    </div>-->
     <div class="col-sm-12" align="center">
     <img src="page1/emoji-1-button-google.png" alt="google" width="60%" height="60%" onclick="googleSignIn()" class="sign">
     </div>
